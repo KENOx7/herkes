@@ -5,37 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Davamiyyət Cədvəli</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .modal { transition: opacity 0.3s ease; }
-        .details-cell { cursor: pointer; }
-        .details-cell:hover { background-color: #eff6ff; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #111827; /* bg-gray-900 */
+        }
+        
+        /* 🎨 Custom CSS from your design guide */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        ::selection { background-color: #3b82f6; color: white; }
+
+        /* For the sticky column to work */
+        .sticky-col {
+            position: -webkit-sticky; /* For Safari */
+            position: sticky;
+            left: 0;
+            z-index: 10;
+        }
+        
+        /* Ensure sticky header cell has the right background */
+        thead .sticky-col {
+            background-color: #1f2937; /* bg-gray-800 */
+        }
+        
+        /* Ensure sticky body cells have the right background on hover too */
+        tbody tr .sticky-col {
+             background-color: #1f2937; /* bg-gray-800 */
+        }
+        tbody tr:hover .sticky-col {
+             background-color: #374151; /* bg-gray-700 */
+        }
+
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="text-gray-200">
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800">Davamiyyət Cədvəli</h1>
-            <p class="text-lg text-gray-600 mt-2">Şagirdlərin fənlər üzrə ümumi qayıbları</p>
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2">
+                Davamiyyət Cədvəli
+            </h1>
+            <p class="text-lg text-gray-400 mt-2">Şagirdlərin fənlər üzrə ümumi qayıbları</p>
         </header>
 
-        <main class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <main class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
             <div id="attendance-table-container" class="overflow-x-auto">
-                <p id="loading-message" class="p-8 text-gray-500 text-center">Məlumatlar yüklənir...</p>
+                <p id="loading-message" class="p-8 text-gray-400 text-center text-lg">Məlumatlar yüklənir...</p>
             </div>
         </main>
     </div>
 
-    <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-5 border-b">
-                <h2 id="modal-title" class="text-xl font-semibold">Qayıb Tarixləri</h2>
-                <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+    <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-sm max-h-[90vh] flex flex-col transform transition-all">
+            <div class="flex justify-between items-center p-5 border-b border-gray-700">
+                <h2 id="modal-title" class="text-xl font-semibold text-gray-200">Qayıb Tarixləri</h2>
+                <button id="close-modal" class="text-gray-500 hover:text-white text-3xl transition-colors">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto">
-                <ul id="modal-list-body" class="space-y-2">
+                <ul id="modal-list-body" class="space-y-3">
                     </ul>
             </div>
         </div>
@@ -45,9 +76,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // =======================================================================
-        // SİZİN TƏQDİM ETDİYİNİZ FIREBASE MƏLUMATLARI
-        // =======================================================================
+        // FIREBASE MƏLUMATLARI
         const firebaseConfig = {
             apiKey: "AIzaSyAtQ_laoPhn_31RgUFp5hkHPzAcYJSH9_8",
             authDomain: "davamiyyet-sistemi.firebaseapp.com",
@@ -57,7 +86,6 @@
             appId: "1:773549402059:web:25286906aa1d998041f84e",
             measurementId: "G-M3Y8QZCM8C"
         };
-        // =======================================================================
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -71,9 +99,6 @@
         
         let allAbsences = [];
 
-        // =======================================================================
-        // BU SİYAHI ADMIN PANELİNDƏKİ SİYAHI İLƏ EYNİ OLMALIDIR!
-        // =======================================================================
         const students = [
           "İsayev Ramal Rəfayıl",
           "Qulamov Kamil Amil",
@@ -102,21 +127,16 @@
           "Orucov Nurlan Seymur",
           "Məhərrəmli Nicat Elxan"
         ];
-        // =======================================================================
 
         const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texnologiyaları"];
 
         const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
         onSnapshot(q, (querySnapshot) => {
-            allAbsences = [];
-            querySnapshot.forEach((doc) => {
-                allAbsences.push(doc.data());
-            });
+            allAbsences = querySnapshot.docs.map(doc => doc.data());
             updateUI();
         });
 
         function updateUI() {
-            // 1. Məlumatları şagird və fənnə görə qruplaşdır
             const absencesByStudent = {};
             students.forEach(student => {
                 absencesByStudent[student] = {};
@@ -131,24 +151,26 @@
                 }
             });
 
-            // 2. HTML Cədvəlini yarat
             let tableHTML = `
-                <table class="w-full text-sm text-left text-gray-600">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-gray-400 uppercase bg-gray-800">
                         <tr>
-                            <th scope="col" class="py-3 px-6">Ad Soyad</th>`;
+                            <th scope="col" class="sticky-col py-4 px-6 font-semibold">Ad Soyad</th>`;
             subjects.forEach(subject => {
-                tableHTML += `<th scope="col" class="py-3 px-6 text-center">${subject}</th>`;
+                tableHTML += `<th scope="col" class="py-4 px-6 text-center font-semibold">${subject}</th>`;
             });
             tableHTML += `</tr></thead><tbody>`;
 
             students.forEach(student => {
-                tableHTML += `<tr class="bg-white border-b hover:bg-gray-50">
-                                <td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">${student}</td>`;
+                tableHTML += `<tr class="border-b border-gray-700 hover:bg-gray-700 transition-colors duration-200">
+                                <td class="sticky-col py-4 px-6 font-medium text-gray-200 whitespace-nowrap">${student}</td>`;
                 subjects.forEach(subject => {
                     const count = absencesByStudent[student][subject];
+                    const countColor = count > 0 ? 'text-yellow-400' : 'text-gray-500';
+                    const isClickable = count > 0 ? 'cursor-pointer' : '';
+
                     tableHTML += `<td 
-                                    class="py-4 px-6 text-center font-bold ${count > 0 ? 'text-red-600 details-cell' : 'text-gray-500'}"
+                                    class="py-4 px-6 text-center font-bold text-lg ${countColor} ${isClickable}"
                                     data-student="${student}" 
                                     data-subject="${subject}">
                                     ${count}
@@ -161,8 +183,7 @@
             tableContainer.innerHTML = tableHTML;
             loadingMessage.style.display = 'none';
 
-            // 3. Klik eventlərini təyin et
-            document.querySelectorAll('.details-cell').forEach(cell => {
+            tableContainer.querySelectorAll('td[data-student]').forEach(cell => {
                 if (parseInt(cell.textContent) > 0) {
                     cell.addEventListener('click', () => {
                         const studentName = cell.getAttribute('data-student');
@@ -177,35 +198,27 @@
             modalTitle.textContent = `${student} - ${subject}`;
             modalListBody.innerHTML = '';
 
-            const filteredAbsences = allAbsences.filter(a => a.usaqAdi === student && a.fenn === subject);
+            const filteredAbsences = allAbsences
+                .filter(a => a.usaqAdi === student && a.fenn === subject)
+                .sort((a, b) => new Date(a.tarix) - new Date(b.tarix));
             
             if (filteredAbsences.length === 0) {
-                modalListBody.innerHTML = '<li class="p-3 text-center text-gray-500">Qayıb tapılmadı.</li>';
+                modalListBody.innerHTML = '<li class="p-3 text-center text-gray-400">Qayıb tapılmadı.</li>';
             } else {
-                // Tarixləri düzgün sıralamaq üçün
-                filteredAbsences.sort((a, b) => new Date(a.tarix) - new Date(b.tarix));
-                
                 filteredAbsences.forEach(absence => {
                     const listItem = document.createElement('li');
-                    listItem.className = 'bg-gray-100 p-3 rounded-md text-center';
+                    listItem.className = 'bg-gray-700 p-3 rounded-lg text-center font-mono text-blue-300';
                     listItem.textContent = absence.tarix;
                     modalListBody.appendChild(listItem);
                 });
             }
-
             modal.classList.remove('hidden');
         }
 
-        // Modalı bağlamaq
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
+        closeModalButton.addEventListener('click', () => modal.classList.add('hidden'));
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
+            if (e.target === modal) modal.classList.add('hidden');
         });
-
     </script>
 </body>
 </html>
