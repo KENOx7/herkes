@@ -123,6 +123,16 @@
         ];
         const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texologiyaları"];
         
+        // <<< YENİ: Fənn adlarını qısaltmaq üçün obyekt
+        const subjectShortNames = {
+            "Ehtimal nəzəriyyəsi və statistika": "Ehtimal",
+            "Sistem proqramlaşdırma": "Sistem P.",
+            "XDIAK-3": "XDIAK-3",
+            "Verilənlər bazası sistemləri": "VBS",
+            "Kompüter arxitekturası-1": "Komp. Arx.",
+            "Web sistemləri və texologiyaları": "Web Tex."
+        };
+
         const subjectLimits = {
             "Ehtimal nəzəriyyəsi və statistika": 6,
             "Sistem proqramlaşdırma": 6,
@@ -157,19 +167,25 @@
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs text-gray-400 uppercase bg-gray-800">
                         <tr>
-                            <th scope="col" class="sticky-col py-4 px-6 font-semibold">Ad Soyad</th>`;
+                            <th scope="col" class="sticky-col py-4 px-4 font-semibold">Ad Soyad</th>`;
             subjects.forEach(subject => {
                 const limit = subjectLimits[subject] || 'N/A';
-                tableHTML += `<th scope="col" class="py-3 px-6 text-center font-semibold">
-                                <div>${subject}</div>
-                                <div class="text-yellow-400 font-normal text-xs mt-1">(Limit: ${limit})</div>
+                const shortName = subjectShortNames[subject] || subject;
+                // <<< DƏYİŞİKLİK: padding azaldıldı (px-2)
+                tableHTML += `<th scope="col" class="py-3 px-2 text-center font-semibold">
+                                <div title="${subject}">${shortName}</div>
+                                <div class="text-yellow-400 font-normal text-xs mt-1">(L: ${limit})</div>
                               </th>`;
             });
             tableHTML += `</tr></thead><tbody>`;
 
             students.forEach(student => {
+                // <<< YENİ: Ata adını gizlətmək üçün adı qısaldırıq
+                const shortStudentName = student.split(' ').slice(0, 2).join(' ');
+
+                // <<< DƏYİŞİKLİK: padding azaldıldı (px-4) və qısa addan istifadə edildi
                 tableHTML += `<tr class="border-b border-gray-700 hover:bg-gray-700 transition-colors duration-200">
-                                  <td class="sticky-col py-4 px-6 font-medium text-gray-200 whitespace-nowrap">${student}</td>`;
+                                    <td class="sticky-col py-4 px-4 font-medium text-gray-200 whitespace-nowrap">${shortStudentName}</td>`;
                 subjects.forEach(subject => {
                     const count = absencesByStudent[student][subject];
                     const limit = subjectLimits[subject];
@@ -192,8 +208,9 @@
                     
                     const isClickable = count > 0 ? 'cursor-pointer' : '';
 
+                    // <<< DƏYİŞİKLİK: padding azaldıldı (px-2). "data-student" atributunda tam ad saxlanıldı
                     tableHTML += `<td 
-                                    class="py-4 px-6 text-center font-bold text-lg ${countColor} ${isClickable}"
+                                    class="py-4 px-2 text-center font-bold text-lg ${countColor} ${isClickable}"
                                     data-student="${student}" 
                                     data-subject="${subject}">
                                     ${count}
