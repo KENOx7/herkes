@@ -23,6 +23,7 @@
 
         <main id="summary-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Fənn kartları bura yüklənəcək -->
+             <p id="loading-message" class="text-gray-500 col-span-full text-center">Məlumatlar yüklənir...</p>
         </main>
     </div>
 
@@ -54,17 +55,19 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- BU HİSSƏNİ ÖZ FIREBASE PROYEKTİNİZİN MƏLUMATLARI İLƏ DƏYİŞİN ---
-        // BU MƏLUMATLAR admin.html faylındakı ilə EYNİ OLMALIDIR
+        // =======================================================================
+        // SİZİN TƏQDİM ETDİYİNİZ FIREBASE MƏLUMATLARI
+        // =======================================================================
         const firebaseConfig = {
-            apiKey: "SİZİN_API_KEY",
-            authDomain: "SİZİN_AUTH_DOMAIN",
-            projectId: "SİZİN_PROJECT_ID",
-            storageBucket: "SİZİN_STORAGE_BUCKET",
-            messagingSenderId: "SİZİN_MESSAGING_SENDER_ID",
-            appId: "SİZİN_APP_ID"
+            apiKey: "AIzaSyAtQ_laoPhn_31RgUFp5hkHPzAcYJSH9_8",
+            authDomain: "davamiyyet-sistemi.firebaseapp.com",
+            projectId: "davamiyyet-sistemi",
+            storageBucket: "davamiyyet-sistemi.appspot.com",
+            messagingSenderId: "773549402059",
+            appId: "1:773549402059:web:25286906aa1d998041f84e",
+            measurementId: "G-M3Y8QZCM8C"
         };
-        // -------------------------------------------------------------------------
+        // =======================================================================
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -93,18 +96,21 @@
             summaryContainer.innerHTML = '';
             const absenceBySubject = {};
 
-            // Fənlərə görə qruplaşdırma
+            // Fənlərə görə qruplaşdırma üçün ilkin obyekt yarat
             subjects.forEach(subject => {
                 absenceBySubject[subject] = 0;
             });
+
+            // Hər qayıbı dövrə sal və müvafiq fənnin sayını artır
             allAbsences.forEach(absence => {
                 if(absenceBySubject.hasOwnProperty(absence.fenn)) {
+                    // DÜZƏLİŞ BURADADIR: `subject` əvəzinə `absence.fenn` istifadə edilir
                     absenceBySubject[absence.fenn]++;
                 }
             });
 
             // Hər fənn üçün kart yarat
-            for (const subject in absenceBySubject) {
+            subjects.forEach(subject => {
                 const count = absenceBySubject[subject];
                 const card = document.createElement('div');
                 card.className = 'bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300';
@@ -116,7 +122,7 @@
                     </button>
                 `;
                 summaryContainer.appendChild(card);
-            }
+            });
             
             // "Ətraflı Gör" düymələrinə event listener'lar əlavə et
             document.querySelectorAll('.details-btn').forEach(button => {
@@ -163,3 +169,4 @@
     </script>
 </body>
 </html>
+
