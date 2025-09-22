@@ -47,9 +47,8 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         <header class="text-center mb-10">
             <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2">
-                Davamiyyət Cədvəli
+                Qayıblar
             </h1>
-            <p class="text-lg text-gray-400 mt-2">Şagirdlərin fənlər üzrə ümumi qayıbları</p>
         </header>
 
         <main class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
@@ -166,7 +165,7 @@
                                 <td class="sticky-col py-4 px-6 font-medium text-gray-200 whitespace-nowrap">${student}</td>`;
                 subjects.forEach(subject => {
                     const count = absencesByStudent[student][subject];
-                    const countColor = count > 0 ? 'text-yellow-400' : 'text-gray-500';
+                    const countColor = count > 0 ? 'text-red-400' : 'text-gray-500';
                     const isClickable = count > 0 ? 'cursor-pointer' : '';
 
                     tableHTML += `<td 
