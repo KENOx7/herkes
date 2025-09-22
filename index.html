@@ -122,6 +122,16 @@
           "Məhərrəmli Nicat Elxan"
         ];
         const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texnologiyaları"];
+        
+        const subjectLimits = {
+            "Ehtimal nəzəriyyəsi və statistika": 6,
+            "Sistem proqramlaşdırma": 6,
+            "XDIAK-3": 8,
+            "Verilənlər bazası sistemləri": 8,
+            "Kompüter arxitekturası-1": 6,
+            "Web sistemləri və texnologiyaları": 10
+        };
+
         const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
         onSnapshot(q, (querySnapshot) => {
             allAbsences = querySnapshot.docs.map(doc => doc.data());
@@ -149,16 +159,29 @@
                         <tr>
                             <th scope="col" class="sticky-col py-4 px-6 font-semibold">Ad Soyad</th>`;
             subjects.forEach(subject => {
-                tableHTML += `<th scope="col" class="py-4 px-6 text-center font-semibold">${subject}</th>`;
+                const limit = subjectLimits[subject] || 'N/A';
+                tableHTML += `<th scope="col" class="py-3 px-6 text-center font-semibold">
+                                <div>${subject}</div>
+                                <div class="text-yellow-400 font-normal text-xs mt-1">(Limit: ${limit})</div>
+                              </th>`;
             });
             tableHTML += `</tr></thead><tbody>`;
 
             students.forEach(student => {
                 tableHTML += `<tr class="border-b border-gray-700 hover:bg-gray-700 transition-colors duration-200">
-                                <td class="sticky-col py-4 px-6 font-medium text-gray-200 whitespace-nowrap">${student}</td>`;
+                                  <td class="sticky-col py-4 px-6 font-medium text-gray-200 whitespace-nowrap">${student}</td>`;
                 subjects.forEach(subject => {
                     const count = absencesByStudent[student][subject];
-                    const countColor = count > 0 ? 'text-red-400' : 'text-gray-500';
+                    const limit = subjectLimits[subject];
+                    let countColor = 'text-gray-500';
+                    if (count > 0) {
+                        if (limit && count > limit) {
+                            countColor = 'text-red-500 font-extrabold animate-pulse';
+                        } else {
+                            countColor = 'text-yellow-400';
+                        }
+                    }
+                    
                     const isClickable = count > 0 ? 'cursor-pointer' : '';
 
                     tableHTML += `<td 
