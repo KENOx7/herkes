@@ -121,7 +121,7 @@
           "Orucov Nurlan Seymur",
           "Məhərrəmli Nicat Elxan"
         ];
-        const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texologiyaları"];
+        const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texnologiyaları"];
         
         const subjectLimits = {
             "Ehtimal nəzəriyyəsi və statistika": 6,
@@ -129,7 +129,7 @@
             "XDIAK-3": 8,
             "Verilənlər bazası sistemləri": 8,
             "Kompüter arxitekturası-1": 6,
-            "Web sistemləri və texologiyaları": 10
+            "Web sistemləri və texnologiyaları": 10
         };
 
         const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
@@ -161,7 +161,7 @@
             subjects.forEach(subject => {
                 const limit = subjectLimits[subject] || 'N/A';
                 tableHTML += `<th scope="col" class="py-3 px-6 text-center font-semibold">
-                                <div>${subject}</div>
+                                <div class="whitespace-nowrap">${subject}</div>
                                 <div class="text-yellow-400 font-normal text-xs mt-1">(Limit: ${limit})</div>
                               </th>`;
             });
@@ -174,24 +174,20 @@
                     const count = absencesByStudent[student][subject];
                     const limit = subjectLimits[subject];
                     
-                    // --- YENI DUZELIS --- Rəngləmə məntiqi yeniləndi
-                    let countColor = 'text-gray-500'; // 0 qayıb üçün standart rəng
+                    let countColor = 'text-gray-500'; 
                     if (count > 0 && limit) {
                         if (count >= limit) {
-                             // Limitə bərabər və ya çoxdursa - Qırmızı + Animasiya
                             countColor = 'text-red-500 font-extrabold animate-pulse';
                         } else {
                             const percentage = count / limit;
                             if (percentage >= 0.75) {
-                                // Limitə çox yaxındırsa - Narıncı
                                 countColor = 'text-orange-500 font-bold';
                             } else {
-                                // Az sayda qayıb varsa - Sarı
                                 countColor = 'text-yellow-400';
                             }
                         }
                     } else if (count > 0) {
-                        countColor = 'text-yellow-400'; // Limitsiz fənn üçün
+                        countColor = 'text-yellow-400';
                     }
                     
                     const isClickable = count > 0 ? 'cursor-pointer' : '';
