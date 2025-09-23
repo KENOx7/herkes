@@ -16,8 +16,6 @@
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
         ::selection { background-color: #3b82f6; color: white; }
-        
-        /* --- STICKY STYLES --- */
         thead th {
             position: -webkit-sticky;
             position: sticky;
@@ -78,7 +76,6 @@
                 <button id="close-modal" class="text-gray-500 hover:text-white text-3xl transition-colors">&times;</button>
             </div>
             <div id="modal-list-body" class="p-6 overflow-y-auto">
-                <!-- Məlumatlar bura yüklənəcək -->
             </div>
         </div>
     </div>
@@ -184,11 +181,11 @@
                 const studentName = cell.getAttribute('data-student');
                 const subjectName = cell.getAttribute('data-subject');
 
-                if (subjectName) { // Fənn xanasıdır
+                if (subjectName) { 
                     if (parseInt(cell.textContent) > 0) {
                         cell.addEventListener('click', () => showSubjectDetails(studentName, subjectName));
                     }
-                } else { // Ad xanasıdır
+                } else { 
                     cell.addEventListener('click', () => showAllDetailsForStudent(studentName));
                 }
             });
@@ -239,7 +236,7 @@
                     subjectContainer.className = 'mb-5';
                     const subjectTitle = document.createElement('h3');
                     subjectTitle.className = 'font-semibold text-lg text-blue-400 mb-2 border-b border-gray-600 pb-1';
-                    subjectTitle.textContent = `${subject} (${absencesBySubject[subject].length} gün)`;
+                    subjectTitle.textContent = `${subject} (${absencesBySubject[subject].length} Qayıb)`;
                     subjectContainer.appendChild(subjectTitle);
                     const dateList = document.createElement('ul');
                     dateList.className = 'grid grid-cols-2 sm:grid-cols-3 gap-2';
