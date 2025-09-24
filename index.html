@@ -60,8 +60,15 @@
           </div>
         </header>
     
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <!-- Bugün əlavə olunan qayıblar üçün bölmə -->
+    <div id="recent-absences-container" class="container mx-auto px-4 sm:px-6 lg:px-8 mb-6 hidden">
+        <h2 class="text-xl font-bold text-gray-300 mb-4 pb-2 border-b border-gray-700">Bugün Əlavə Olunanlar</h2>
+        <div id="recent-absences-list" class="flex flex-wrap gap-3">
+            <!-- JavaScript bu hissəni dolduracaq -->
+        </div>
+    </div>
 
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 pt-0">
         <main class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
             <div id="attendance-table-container" class="overflow-auto max-h-[70vh]">
                 <p id="loading-message" class="p-8 text-gray-400 text-center text-lg">Məlumatlar yüklənir...</p>
@@ -94,12 +101,14 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        
         const tableContainer = document.getElementById('attendance-table-container');
         const loadingMessage = document.getElementById('loading-message');
         const modal = document.getElementById('details-modal');
         const closeModalButton = document.getElementById('close-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalListBody = document.getElementById('modal-list-body');
+        
         let allAbsences = [];
         const students = [
           "İsayev Ramal Rəfayıl", "Qulamov Kamil Amil", "Abbaszadə Salman Məsud", "Heydərli Heydər Sabir", "Mikayılova Lalə Samir", "Seyidov Nurəli Mirnayıb", "Kübərov Rahid Mahmud", "Bayramov Məmməd Vaqif", "Həsənov Mənzər İlqar", "Rüstəmov Elgün Ceyhun", "Xasayeva Nərmin Azər", "İbalı Cəmilə Rəfail", "Mirzəyeva Nüşabə Hacıəli", "Muradova Leyla Qadir", "Əhmədov Kənan Ceyhun", "Sultanlı Nihad Sərhad", "Əsgərov Elnar Vüsal", "Hüseynli Nərgiz Mütəllim", "Mirişov Nihad Murad", "Ağalizadə Səid Elman", "Hüseynova Firuzə Sənan", "Ağakərimov Fəqan Alim", "Həsənova Cəmalə Sergey", "Əliyev Fuad Razim", "Orucov Nurlan Seymur", "Məhərrəmli Nicat Elxan"
@@ -113,10 +122,48 @@
         const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
         onSnapshot(q, (querySnapshot) => {
             allAbsences = querySnapshot.docs.map(doc => doc.data());
-            updateUI();
+            
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            const todayString = `${day}.${month}.${year}`;
+
+            const todaysAbsences = allAbsences.filter(absence => absence.tarix === todayString);
+            
+            updateRecentAbsencesUI(todaysAbsences);
+            updateTableUI();
         });
 
-        function updateUI() {
+        function updateRecentAbsencesUI(absences) {
+            const container = document.getElementById('recent-absences-container');
+            const list = document.getElementById('recent-absences-list');
+
+            if (absences.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            list.innerHTML = ''; 
+
+            absences.forEach(absence => {
+                const studentNameParts = absence.usaqAdi.split(' ');
+                const shortStudentName = `${studentNameParts[0]} ${studentNameParts[1]}`;
+
+                const pill = document.createElement('div');
+                pill.className = 'bg-gray-700 border border-gray-600 rounded-full px-4 py-2 text-sm font-medium text-gray-200 shadow-md';
+                pill.innerHTML = `
+                    <span class="font-semibold text-blue-300">${shortStudentName}</span>
+                    <span class="text-gray-400 mx-1">-</span>
+                    <span>${absence.fenn}</span>
+                `;
+                list.appendChild(pill);
+            });
+        }
+
+
+        function updateTableUI() {
             const absencesByStudent = {};
             students.forEach(student => {
                 absencesByStudent[student] = {};
@@ -148,26 +195,39 @@
             students.forEach(student => {
                 const shortStudentName = student.split(' ').slice(0, 2).join(' ');
                 tableHTML += `<tr class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors duration-200">
-                                    <td class="sticky-col py-4 px-4 font-medium text-gray-200 whitespace-nowrap cursor-pointer hover:text-blue-400 transition-colors" data-student="${student}">
+                                    <td class="sticky-col py-3 px-4 font-medium text-gray-200 whitespace-nowrap cursor-pointer hover:text-blue-400 transition-colors" data-student="${student}">
                                         ${shortStudentName}
                                     </td>`;
                 subjects.forEach(subject => {
                     const count = absencesByStudent[student][subject];
                     const limit = subjectLimits[subject];
-                    let countColor = 'text-gray-500'; 
-                    if (count > 0 && limit) {
-                        if (count >= limit) countColor = 'text-red-500 font-extrabold animate-pulse';
-                        else if (count / limit >= 0.75) countColor = 'text-orange-500 font-bold';
-                        else countColor = 'text-yellow-400';
-                    } else if (count > 0) {
-                        countColor = 'text-yellow-400';
-                    }
+                    
+                    let cellContent = `${count}`;
+                    let cellClasses = 'py-3 px-2 text-center font-bold text-lg align-middle';
                     const isClickable = count > 0 ? 'cursor-pointer hover:underline' : '';
+
+                    if (count === 0) {
+                        cellClasses += ' text-gray-500';
+                    } else if (limit) {
+                        if (count > limit) {
+                            cellClasses += ' bg-red-800 text-white';
+                            cellContent = `<div>${count}</div><div class="text-xs text-red-300 font-semibold mt-1">KƏSİLDİ</div>`;
+                        } else if (count === limit) {
+                            cellClasses += ' bg-red-600/80 text-white animate-pulse';
+                        } else if (count / limit >= 0.75) {
+                            cellClasses += ' text-orange-400';
+                        } else {
+                            cellClasses += ' text-yellow-400';
+                        }
+                    } else {
+                        cellClasses += ' text-yellow-400';
+                    }
+
                     tableHTML += `<td 
-                                    class="py-4 px-2 text-center font-bold text-lg ${countColor} ${isClickable}"
+                                    class="${cellClasses} ${isClickable}"
                                     data-student="${student}" 
                                     data-subject="${subject}">
-                                    ${count}
+                                    ${cellContent}
                                   </td>`;
                 });
                 tableHTML += `</tr>`;
@@ -182,7 +242,7 @@
                 const subjectName = cell.getAttribute('data-subject');
 
                 if (subjectName) { 
-                    if (parseInt(cell.textContent) > 0) {
+                    if (parseInt(cell.innerText) > 0) { // Check innerText to ensure it's a number
                         cell.addEventListener('click', () => showSubjectDetails(studentName, subjectName));
                     }
                 } else { 
@@ -191,12 +251,18 @@
             });
         }
         
+        // Helper function to parse DD.MM.YYYY date strings correctly
+        function parseDate(dateString) {
+            const parts = dateString.split('.');
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
         function showSubjectDetails(student, subject) {
             modalTitle.textContent = `${student} - ${subject}`;
             modalListBody.innerHTML = '';
             const filteredAbsences = allAbsences
                 .filter(a => a.usaqAdi === student && a.fenn === subject)
-                .sort((a, b) => new Date(a.tarix) - new Date(b.tarix));
+                .sort((a, b) => parseDate(a.tarix) - parseDate(b.tarix));
             
             if (filteredAbsences.length === 0) {
                 modalListBody.innerHTML = '<li class="p-3 text-center text-gray-400">Qayıb tapılmadı.</li>';
@@ -231,7 +297,7 @@
                 });
 
                 Object.keys(absencesBySubject).sort().forEach(subject => {
-                    absencesBySubject[subject].sort((a, b) => new Date(a) - new Date(b));
+                    absencesBySubject[subject].sort((a, b) => parseDate(a) - parseDate(b));
                     const subjectContainer = document.createElement('div');
                     subjectContainer.className = 'mb-5';
                     const subjectTitle = document.createElement('h3');
@@ -260,5 +326,4 @@
     </script>
 </body>
 </html>
-
 
