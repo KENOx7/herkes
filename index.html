@@ -128,7 +128,12 @@
         });
 
         function updateUI() {
-            const today = new Date().toISOString().split('T')[0]; 
+            const bakuDate = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Baku" }));
+            const year = bakuDate.getFullYear();
+            const month = String(bakuDate.getMonth() + 1).padStart(2, '0');
+            const day = String(bakuDate.getDate()).padStart(2, '0');
+            const today = `${year}-${month}-${day}`;
+            
             const todaysAbsences = allAbsences.filter(a => a.tarix === today);
 
             if (todaysAbsences.length > 0) {
