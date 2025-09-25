@@ -128,8 +128,7 @@
         });
 
         function updateUI() {
-            // --- 1. Bu gun qayib alanlarin hazirlanmasi ---
-            const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0]; 
             const todaysAbsences = allAbsences.filter(a => a.tarix === today);
 
             if (todaysAbsences.length > 0) {
@@ -158,8 +157,6 @@
                 todaysAbsencesContainer.classList.add('hidden');
             }
 
-
-            // --- 2. Esas cedvelin hazirlanmasi ---
             const absencesByStudent = {};
             students.forEach(student => {
                 absencesByStudent[student] = {};
@@ -209,7 +206,6 @@
                     
                     const isClickable = count > 0 ? 'cursor-pointer hover:underline' : '';
                     
-                    // YENI: "kesildi" yazisinin elave edilmesi
                     let kesildiText = '';
                     if (limit && count > limit) {
                         kesildiText = `<div class="text-xs text-red-500 font-semibold mt-1">kəsildi</div>`;
