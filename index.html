@@ -21,9 +21,9 @@
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
         
-        /* DESKTOP CƏDVƏL STİLLƏRİ (Düzəliş edildi) */
+        /* DESKTOP CƏDVƏL STİLLƏRİ */
         .desktop-table-container {
-            overflow-x: auto; /* Yana scroll aktiv edildi */
+            overflow-x: auto; /* Yana scroll aktiv */
             border: 1px solid #374151;
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -149,6 +149,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Bu gün qayıb alanlar (Tam Ekran) -->
     <div id="todays-absences-container" class="w-full px-4 mt-6 hidden">
@@ -227,7 +228,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 758/ITS Firebase Konfiqurasiyası
         const firebaseConfig = {
             apiKey: "AIzaSyAtQ_laoPhn_31RgUFp5hkHPzAcYJSH9_8",
             authDomain: "davamiyyet-sistemi.firebaseapp.com",
@@ -267,7 +267,7 @@
         const todaysContainer = document.getElementById('todays-absences-container');
         const todaysList = document.getElementById('todays-absences-list');
 
-        // 758/ITS Məlumatları
+        // 758/ITS Məlumatları - Sıralama QORUNUB SAXLANILIR
         const students = [
           "İsayev Ramal Rəfayıl", "Qulamov Kamil Amil", "Abbaszadə Salman Məsud", "Heydərli Heydər Sabir", "Mikayılova Lalə Samir", "Seyidov Nurəli Mirnayıb", "Kübərov Rahid Mahmud", "Bayramov Məmməd Vaqif", "Həsənov Mənzər İlqar", "Rüstəmov Elgün Ceyhun", "Xasayeva Nərmin Azər", "İbalı Cəmilə Rəfail", "Mirzəyeva Nüşabə Hacıəli", "Muradova Leyla Qadir", "Əhmədov Kənan Ceyhun", "Sultanlı Nihad Sərhad", "Əsgərov Elnar Vüsal", "Hüseynli Nərgiz Mütəllim", "Mirişov Nihad Murad", "Ağalizadə Səid Elman", "Hüseynova Firuzə Sənan", "Ağakərimov Fəqan Alim", "Həsənova Cəmalə Sergey", "Əliyev Fuad Razim", "Orucov Nurlan Seymur"
         ];
@@ -281,16 +281,16 @@
         let allAbsences = [];
         let processedData = {};
 
-        // Sən kimsən? funksiyası
+        // Sən kimsən? funksiyası - DÜZƏLİŞ: Artıq əsas array-i sort etmirik
         function initIdentityFeature() {
-            students.sort().forEach(st => {
+            // Dropdown üçün kopyasını yaradıb sort edirik ki, əsas siyahı pozulmasın
+            [...students].sort().forEach(st => {
                 const option = document.createElement('option');
                 option.value = st;
                 option.textContent = st;
                 studentSelect.appendChild(option);
             });
 
-            // LocalStorage Key: ITS qrupu üçün xüsusi açar
             const savedName = localStorage.getItem('myAttendanceIdentity_ITS');
             if (savedName) {
                 updateIdentityUI(savedName);
@@ -377,6 +377,7 @@
             let tbodyHTML = '';
             let mobileHTML = '';
 
+            // Burada artıq original 'students' siyahısı istifadə olunur (sort edilməmiş)
             students.forEach(student => {
                 const data = processedData[student];
                 
@@ -393,7 +394,6 @@
                     let styleClass = "text-gray-500";
                     let content = count > 0 ? count : "-";
                     
-                    // Xəta düzəldildi: Class təkrarı aradan qaldırıldı
                     let cellClickAttr = "";
                     let cellClasses = "py-3 px-2 text-center transition-colors"; 
 
