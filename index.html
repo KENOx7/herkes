@@ -6,24 +6,21 @@
     <title>758/ITS - Qayıblar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- İkonlar üçün Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #111827; /* Tünd rəng */
+            background-color: #111827;
             color: #e5e7eb;
         }
         
-        /* Scrollbar dizaynı */
         ::-webkit-scrollbar { width: 8px; height: 8px;}
         ::-webkit-scrollbar-track { background: #111827; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
         
-        /* DESKTOP CƏDVƏL STİLLƏRİ */
         .desktop-table-container {
-            overflow-x: auto; /* Yana scroll aktiv */
+            overflow-x: auto;
             border: 1px solid #374151;
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -49,7 +46,6 @@
             vertical-align: middle;
         }
 
-        /* İlk sütun (Ad Soyad) sabit qalsın */
         .sticky-col-header {
             position: sticky;
             left: 0;
@@ -75,7 +71,6 @@
             background-color: #1f2937;
         }
         
-        /* Kart animasiyaları (Mobil üçün) */
         .student-card {
             transition: all 0.2s ease;
         }
@@ -83,7 +78,6 @@
             transform: scale(0.98);
         }
 
-        /* Highlight Animation */
         @keyframes highlight-pulse {
             0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.2); }
             70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
@@ -99,22 +93,18 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Header Bölməsi -->
     <header class="bg-gray-800 border-b border-gray-700 shadow-lg z-40 relative">
         <div class="max-w-full mx-auto px-4 py-4 flex justify-between items-center">
             
-            <!-- Sol: Qrup -->
             <div class="bg-blue-600 text-white font-bold px-3 py-1 rounded shadow-lg">
                 758/ITS
             </div>
 
-            <!-- Mərkəz: Başlıq -->
             <h1 class="hidden md:block text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
                 Davamiyyət Sistemi
             </h1>
             <h1 class="block md:hidden text-lg font-bold text-white">Qayıblar</h1>
 
-            <!-- Sağ: Reytinq -->
             <button id="open-ranking" class="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full font-semibold transition-transform active:scale-95 shadow-lg">
                 <i class="ph ph-trophy text-xl"></i>
                 <span class="hidden sm:inline">Reytinq</span>
@@ -122,7 +112,6 @@
         </div>
     </header>
 
-    <!-- Sən kimsən? Bölməsi -->
     <div class="w-full px-4 mt-6 mb-4">
         <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
             <div class="flex items-center gap-3 w-full md:w-auto">
@@ -150,8 +139,6 @@
         </div>
     </div>
     
-
-    <!-- Bu gün qayıb alanlar (Tam Ekran) -->
     <div id="todays-absences-container" class="w-full px-4 mt-6 hidden">
         <div class="bg-gray-800 rounded-xl border border-red-500/30 overflow-hidden shadow-2xl">
             <div class="bg-red-900/20 p-3 border-b border-red-500/20">
@@ -160,39 +147,30 @@
                 </h3>
             </div>
             <div id="todays-absences-list" class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- JS -->
             </div>
         </div>
     </div>
 
-    <!-- Əsas Məzmun -->
     <main class="flex-grow w-full px-4 pb-20">
         
-        <!-- Yüklənmə -->
         <div id="loading-message" class="flex flex-col items-center justify-center py-20 text-gray-500">
             <i class="ph ph-spinner animate-spin text-4xl text-blue-500 mb-4"></i>
             <p>Məlumatlar yüklənir...</p>
         </div>
 
-        <!-- MOBILE VIEW (Kartlar) -->
         <div id="mobile-view" class="grid grid-cols-1 md:hidden gap-4">
-            <!-- JS -->
         </div>
 
-        <!-- DESKTOP VIEW (Cədvəl) -->
         <div id="desktop-view" class="hidden md:block desktop-table-container max-h-[70vh]">
             <table>
                 <thead>
-                    <!-- JS -->
                 </thead>
                 <tbody id="desktop-tbody" class="divide-y divide-gray-700">
-                    <!-- JS -->
                 </tbody>
             </table>
         </div>
     </main>
 
-    <!-- Footer / Geri -->
     <div class="fixed bottom-6 right-6 z-50">
         <button onclick="window.location.href='https://kenox7.github.io/Cedvel/'" 
         class="bg-gray-700 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-2xl border border-gray-500 flex items-center justify-center transition-transform hover:-translate-y-1">
@@ -200,7 +178,6 @@
         </button>
     </div>
 
-    <!-- Modallar -->
     <div id="details-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
         <div class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center p-4 border-b border-gray-700">
@@ -241,19 +218,16 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // DOM Elementləri
         const loadingMessage = document.getElementById('loading-message');
         const mobileView = document.getElementById('mobile-view');
         const desktopViewHead = document.querySelector('#desktop-view thead');
         const desktopViewBody = document.getElementById('desktop-tbody');
         
-        // Identity
         const studentSelect = document.getElementById('student-select');
         const saveIdentityBtn = document.getElementById('save-identity-btn');
         const findMeBtn = document.getElementById('find-me-btn');
         const savedIdentityText = document.getElementById('saved-identity-text');
 
-        // Modallar
         const detailsModal = document.getElementById('details-modal');
         const closeModalBtn = document.getElementById('close-modal');
         const modalTitle = document.getElementById('modal-title');
@@ -267,7 +241,6 @@
         const todaysContainer = document.getElementById('todays-absences-container');
         const todaysList = document.getElementById('todays-absences-list');
 
-        // 758/ITS Məlumatları - Sıralama QORUNUB SAXLANILIR
         const students = [
           "İsayev Ramal Rəfayıl", "Qulamov Kamil Amil", "Abbaszadə Salman Məsud", "Heydərli Heydər Sabir", "Mikayılova Lalə Samir", "Seyidov Nurəli Mirnayıb", "Kübərov Rahid Mahmud", "Bayramov Məmməd Vaqif", "Həsənov Mənzər İlqar", "Rüstəmov Elgün Ceyhun", "Xasayeva Nərmin Azər", "İbalı Cəmilə Rəfail", "Mirzəyeva Nüşabə Hacıəli", "Muradova Leyla Qadir", "Əhmədov Kənan Ceyhun", "Sultanlı Nihad Sərhad", "Əsgərov Elnar Vüsal", "Hüseynli Nərgiz Mütəllim", "Mirişov Nihad Murad", "Ağalizadə Səid Elman", "Hüseynova Firuzə Sənan", "Ağakərimov Fəqan Alim", "Həsənova Cəmalə Sergey", "Əliyev Fuad Razim", "Orucov Nurlan Seymur"
         ];
@@ -281,9 +254,7 @@
         let allAbsences = [];
         let processedData = {};
 
-        // Sən kimsən? funksiyası - DÜZƏLİŞ: Artıq əsas array-i sort etmirik
         function initIdentityFeature() {
-            // Dropdown üçün kopyasını yaradıb sort edirik ki, əsas siyahı pozulmasın
             [...students].sort().forEach(st => {
                 const option = document.createElement('option');
                 option.value = st;
@@ -335,7 +306,6 @@
 
         initIdentityFeature();
 
-        // Firebase Dinləyici
         const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
         onSnapshot(q, (querySnapshot) => {
             allAbsences = querySnapshot.docs.map(doc => doc.data());
@@ -362,7 +332,6 @@
         }
 
         function updateUI() {
-            // DESKTOP TABLE HEADER
             let theadHTML = `<tr><th class="sticky-col-header py-4 px-4 text-left whitespace-nowrap">Ad Soyad</th>`;
             subjects.forEach(sub => {
                 theadHTML += `<th class="py-3 px-4 text-center font-semibold min-w-[220px] whitespace-nowrap">
@@ -373,15 +342,12 @@
             theadHTML += `</tr>`;
             desktopViewHead.innerHTML = theadHTML;
 
-            // DESKTOP & MOBILE BODY
             let tbodyHTML = '';
             let mobileHTML = '';
 
-            // Burada artıq original 'students' siyahısı istifadə olunur (sort edilməmiş)
             students.forEach(student => {
                 const data = processedData[student];
                 
-                // DESKTOP ROW
                 tbodyHTML += `<tr data-student-row="${student}" class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors">
                     <td class="sticky-col-cell py-4 px-4 font-medium text-gray-200 whitespace-nowrap cursor-pointer hover:text-blue-400" 
                         onclick="showAllDetails('${student}')">
@@ -399,9 +365,12 @@
 
                     if (count > 0) {
                         styleClass = "text-yellow-400 font-bold text-lg";
-                        if (count >= limit) {
+                        
+                        if (count > limit) {
                             styleClass = "text-red-500 font-extrabold animate-pulse";
                             content += `<div class="text-[10px] text-red-500 font-bold mt-1">KƏSİLDİ</div>`;
+                        } else if (count == limit) {
+                             styleClass = "text-red-500 font-bold text-lg";
                         } else if (count >= limit - 2) {
                             styleClass = "text-orange-500 font-bold";
                         }
@@ -416,7 +385,6 @@
                 });
                 tbodyHTML += `</tr>`;
 
-                // MOBILE CARD
                 let subjectsListHTML = '';
                 let hasAbsence = false;
 
@@ -427,16 +395,29 @@
                         hasAbsence = true;
                         let barColor = "bg-blue-600";
                         let textColor = "text-gray-300";
+                        let failedBadge = "";
                         
-                        if (count >= limit) { barColor = "bg-red-600"; textColor = "text-red-400 font-bold"; }
-                        else if (count >= limit - 2) { barColor = "bg-orange-500"; textColor = "text-orange-400"; }
+                        if (count > limit) { 
+                            barColor = "bg-red-600"; 
+                            textColor = "text-red-500 font-extrabold";
+                            failedBadge = `<span class="ml-2 text-[10px] bg-red-500/20 text-red-500 px-1.5 py-0.5 rounded border border-red-500/50 animate-pulse">KƏSİLDİ</span>`;
+                        } else if (count == limit) {
+                             barColor = "bg-red-600"; 
+                             textColor = "text-red-400 font-bold";
+                        } else if (count >= limit - 2) { 
+                            barColor = "bg-orange-500"; 
+                            textColor = "text-orange-400"; 
+                        }
 
                         const percent = Math.min((count / limit) * 100, 100);
 
                         subjectsListHTML += `
                             <div class="mb-3 cursor-pointer active:bg-gray-700 p-2 rounded border border-gray-700 hover:border-gray-600" onclick="showSubjectDetails('${student}', '${sub}')">
                                 <div class="flex flex-col gap-1 mb-2">
-                                    <span class="text-gray-300 text-sm font-medium leading-tight">${sub}</span>
+                                    <div class="flex justify-between items-start">
+                                        <span class="text-gray-300 text-sm font-medium leading-tight flex-1 mr-2">${sub}</span>
+                                        ${failedBadge}
+                                    </div>
                                     <span class="${textColor} text-sm">${count} <span class="text-gray-500 text-xs">/ ${limit}</span></span>
                                 </div>
                                 <div class="w-full bg-gray-700 rounded-full h-1.5">
@@ -547,7 +528,6 @@
             }
         }
 
-        // Global Funcs
         window.showSubjectDetails = (student, subject) => {
             modalTitle.textContent = student;
             modalBody.innerHTML = `<div class="mb-4 text-blue-400 font-semibold border-b border-gray-700 pb-2">${subject}</div>`;
@@ -595,5 +575,3 @@
     </script>
 </body>
 </html>
-
-
