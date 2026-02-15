@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="az">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
+        body {
+            font-family: 'Inter', sans-serif;
             background-color: #111827;
             color: #e5e7eb;
         }
-        
-        ::-webkit-scrollbar { width: 8px; height: 8px;}
-        ::-webkit-scrollbar-track { background: #111827; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
-        
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+
         .desktop-table-container {
             overflow-x: auto;
             border: 1px solid #374151;
@@ -28,7 +42,7 @@
 
         table {
             width: 100%;
-            border-collapse: separate; 
+            border-collapse: separate;
             border-spacing: 0;
         }
 
@@ -70,19 +84,33 @@
         tbody tr:hover {
             background-color: #1f2937;
         }
-        
+
         .student-card {
             transition: all 0.2s ease;
         }
+
         .student-card:active {
             transform: scale(0.98);
         }
 
         @keyframes highlight-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.2); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+                border-color: #3b82f6;
+                background-color: rgba(59, 130, 246, 0.2);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+                border-color: #3b82f6;
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
         }
+
         .highlight-target {
             animation: highlight-pulse 2s infinite;
             border: 2px solid #3b82f6 !important;
@@ -91,29 +119,40 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col">
 
     <header class="bg-gray-800 border-b border-gray-700 shadow-lg z-40 relative">
-        <div class="max-w-full mx-auto px-4 py-4 flex justify-between items-center">
-            
-            <div class="bg-blue-600 text-white font-bold px-3 py-1 rounded shadow-lg">
-                758/ITS
+        <div class="max-w-full mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+
+            <div class="flex items-center gap-4">
+                <div class="bg-blue-600 text-white font-bold px-3 py-1 rounded shadow-lg">
+                    758/ITS
+                </div>
+                <h1
+                    class="text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                    Davamiyyət
+                </h1>
             </div>
 
-            <h1 class="hidden md:block text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                Davamiyyət Sistemi
-            </h1>
-            <h1 class="block md:hidden text-lg font-bold text-white">Qayıblar</h1>
+            <div class="flex items-center gap-2">
+                <select id="semester-select"
+                    class="bg-gray-700 text-white border border-gray-600 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-lg">
+                    <option value="" disabled selected>Semestr Yüklənir...</option>
+                </select>
 
-            <button id="open-ranking" class="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full font-semibold transition-transform active:scale-95 shadow-lg">
-                <i class="ph ph-trophy text-xl"></i>
-                <span class="hidden sm:inline">Reytinq</span>
-            </button>
+                <button id="open-ranking"
+                    class="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-full font-semibold transition-transform active:scale-95 shadow-lg">
+                    <i class="ph ph-trophy text-xl"></i>
+                    <span class="hidden sm:inline">Reytinq</span>
+                </button>
+            </div>
         </div>
     </header>
 
     <div class="w-full px-4 mt-6 mb-4">
-        <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
+        <div
+            class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
             <div class="flex items-center gap-3 w-full md:w-auto">
                 <div class="p-2 bg-blue-500/20 rounded text-blue-400">
                     <i class="ph ph-user-focus text-2xl"></i>
@@ -124,21 +163,24 @@
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                <select id="student-select" class="bg-gray-700 text-white border border-gray-600 rounded px-3 py-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 outline-none">
+                <select id="student-identity-select"
+                    class="bg-gray-700 text-white border border-gray-600 rounded px-3 py-2 text-sm w-full sm:w-64 focus:ring-2 focus:ring-blue-500 outline-none">
                     <option value="">Tələbə seçin...</option>
                 </select>
                 <div class="flex gap-2">
-                    <button id="save-identity-btn" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm font-semibold transition-colors">
+                    <button id="save-identity-btn"
+                        class="flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded text-sm font-semibold transition-colors">
                         Yadda saxla
                     </button>
-                    <button id="find-me-btn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded text-sm font-semibold transition-colors hidden flex items-center justify-center gap-2">
+                    <button id="find-me-btn"
+                        class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded text-sm font-semibold transition-colors hidden flex items-center justify-center gap-2">
                         <i class="ph ph-magnifying-glass"></i> Tap
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div id="todays-absences-container" class="w-full px-4 mt-6 hidden">
         <div class="bg-gray-800 rounded-xl border border-red-500/30 overflow-hidden shadow-2xl">
             <div class="bg-red-900/20 p-3 border-b border-red-500/20">
@@ -146,40 +188,48 @@
                     <i class="ph ph-warning-circle text-xl"></i> Bu gün qayıb alanlar
                 </h3>
             </div>
-            <div id="todays-absences-list" class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div id="todays-absences-list"
+                class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             </div>
         </div>
     </div>
 
     <main class="flex-grow w-full px-4 pb-20">
-        
+
         <div id="loading-message" class="flex flex-col items-center justify-center py-20 text-gray-500">
             <i class="ph ph-spinner animate-spin text-4xl text-blue-500 mb-4"></i>
             <p>Məlumatlar yüklənir...</p>
         </div>
 
-        <div id="mobile-view" class="grid grid-cols-1 md:hidden gap-4">
+        <div id="no-data-message" class="hidden flex flex-col items-center justify-center py-20 text-gray-500">
+            <i class="ph ph-folder-open text-4xl text-gray-600 mb-4"></i>
+            <p>Bu semestr üçün məlumat tapılmadı.</p>
         </div>
 
-        <div id="desktop-view" class="hidden md:block desktop-table-container max-h-[70vh]">
-            <table>
-                <thead>
-                </thead>
-                <tbody id="desktop-tbody" class="divide-y divide-gray-700">
-                </tbody>
-            </table>
+        <div id="content-area" class="hidden">
+            <div id="mobile-view" class="grid grid-cols-1 md:hidden gap-4"></div>
+
+            <div id="desktop-view" class="hidden md:block desktop-table-container max-h-[70vh]">
+                <table>
+                    <thead></thead>
+                    <tbody id="desktop-tbody" class="divide-y divide-gray-700"></tbody>
+                </table>
+            </div>
         </div>
     </main>
 
     <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="window.location.href='https://kenox7.github.io/Cedvel/'" 
-        class="bg-gray-700 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-2xl border border-gray-500 flex items-center justify-center transition-transform hover:-translate-y-1">
+        <button onclick="window.location.href='cedvel.html'"
+            class="bg-gray-700 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-2xl border border-gray-500 flex items-center justify-center transition-transform hover:-translate-y-1">
             <i class="ph ph-arrow-u-up-left text-2xl"></i>
         </button>
     </div>
 
-    <div id="details-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
-        <div class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
+    <!-- Modals (Details & Ranking) -->
+    <div id="details-modal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
+        <div
+            class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center p-4 border-b border-gray-700">
                 <h2 id="modal-title" class="text-lg font-bold text-white">Detallar</h2>
                 <button id="close-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
@@ -188,12 +238,14 @@
         </div>
     </div>
 
-    <div id="ranking-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
-        <div class="bg-gray-800 border border-yellow-500/30 rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col">
+    <div id="ranking-modal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden z-[60]">
+        <div
+            class="bg-gray-800 border border-yellow-500/30 rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center p-4 border-b border-gray-700 bg-gray-900/50 rounded-t-2xl">
                 <div class="flex items-center gap-2">
                     <i class="ph ph-trophy-fill text-yellow-400 text-xl"></i>
-                    <h2 class="text-lg font-bold text-white">Qayıb Reytinqi :D</h2>
+                    <h2 class="text-lg font-bold text-white">Qayıb Reytinqi</h2>
                 </div>
                 <button id="close-ranking" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
@@ -203,7 +255,9 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { SystemManager } from "./firestore_manager.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAtQ_laoPhn_31RgUFp5hkHPzAcYJSH9_8",
@@ -217,22 +271,31 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+        const manager = new SystemManager(db);
+        const currentGroupId = "758_ITS";
 
+        // UI Refs
+        const semesterSelect = document.getElementById('semester-select');
         const loadingMessage = document.getElementById('loading-message');
+        const noDataMessage = document.getElementById('no-data-message');
+        const contentArea = document.getElementById('content-area');
+
         const mobileView = document.getElementById('mobile-view');
         const desktopViewHead = document.querySelector('#desktop-view thead');
         const desktopViewBody = document.getElementById('desktop-tbody');
-        
-        const studentSelect = document.getElementById('student-select');
+
+        const studentIdentitySelect = document.getElementById('student-identity-select');
         const saveIdentityBtn = document.getElementById('save-identity-btn');
         const findMeBtn = document.getElementById('find-me-btn');
         const savedIdentityText = document.getElementById('saved-identity-text');
 
+        // Modals
         const detailsModal = document.getElementById('details-modal');
         const closeModalBtn = document.getElementById('close-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-list-body');
-        
+
         const rankingModal = document.getElementById('ranking-modal');
         const openRankingBtn = document.getElementById('open-ranking');
         const closeRankingBtn = document.getElementById('close-ranking');
@@ -241,212 +304,299 @@
         const todaysContainer = document.getElementById('todays-absences-container');
         const todaysList = document.getElementById('todays-absences-list');
 
-        const students = [
-          "İsayev Ramal Rəfayıl", "Qulamov Kamil Amil", "Abbaszadə Salman Məsud", "Heydərli Heydər Sabir", "Mikayılova Lalə Samir", "Seyidov Nurəli Mirnayıb", "Kübərov Rahid Mahmud", "Bayramov Məmməd Vaqif", "Həsənov Mənzər İlqar", "Rüstəmov Elgün Ceyhun", "Xasayeva Nərmin Azər", "İbalı Cəmilə Rəfail", "Mirzəyeva Nüşabə Hacıəli", "Muradova Leyla Qadir", "Əhmədov Kənan Ceyhun", "Sultanlı Nihad Sərhad", "Əsgərov Elnar Vüsal", "Hüseynli Nərgiz Mütəllim", "Mirişov Nihad Murad", "Ağalizadə Səid Elman", "Hüseynova Firuzə Sənan", "Ağakərimov Fəqan Alim", "Həsənova Cəmalə Sergey", "Əliyev Fuad Razim", "Orucov Nurlan Seymur"
-        ];
-        
-        const subjects = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texnologiyaları"];
-        
-        const subjectLimits = {
-            "Ehtimal nəzəriyyəsi və statistika": 5, "Sistem proqramlaşdırma": 5, "XDIAK-3": 7, "Verilənlər bazası sistemləri": 7, "Kompüter arxitekturası-1": 5, "Web sistemləri və texnologiyaları": 9
-        };
-
+        let studentsList = []; // Fetched dynamically
+        let subjectsList = []; // Fetched dynamically
         let allAbsences = [];
         let processedData = {};
+        let subjectLimits = {}; // Can be fetched or default for now (7 by default usually)
 
-        function initIdentityFeature() {
-            [...students].sort().forEach(st => {
-                const option = document.createElement('option');
-                option.value = st;
-                option.textContent = st;
-                studentSelect.appendChild(option);
-            });
+        // Init
+        async function init() {
+            try {
+                // Auth anonymously to ensure read access
+                await signInAnonymously(auth);
 
-            const savedName = localStorage.getItem('myAttendanceIdentity_ITS');
-            if (savedName) {
-                updateIdentityUI(savedName);
-                studentSelect.value = savedName;
-            }
+                // 1. Semesters
+                let active = null;
+                let archived = [];
 
-            saveIdentityBtn.addEventListener('click', () => {
-                const selected = studentSelect.value;
-                if (selected) {
-                    localStorage.setItem('myAttendanceIdentity_ITS', selected);
-                    updateIdentityUI(selected);
-                    saveIdentityBtn.textContent = "Saxlandı!";
-                    setTimeout(() => saveIdentityBtn.textContent = "Yadda saxla", 1500);
+                try { active = await manager.getActiveSemester(); } catch (e) { console.error("Active sem fetch failed", e); }
+                try { archived = await manager.getArchivedSemesters(); } catch (e) { console.error("Archived sem fetch failed", e); }
+
+                semesterSelect.innerHTML = '';
+
+                if (active) {
+                    const opt = document.createElement('option');
+                    opt.value = active.id;
+                    opt.textContent = `${active.name} (Aktiv)`;
+                    opt.selected = true;
+                    semesterSelect.appendChild(opt);
                 }
-            });
 
-            findMeBtn.addEventListener('click', () => {
-                const savedName = localStorage.getItem('myAttendanceIdentity_ITS');
-                if (savedName) scrollToStudent(savedName);
-            });
-        }
+                if (archived && archived.length > 0) {
+                    archived.forEach(s => {
+                        const opt = document.createElement('option');
+                        opt.value = s.id;
+                        opt.textContent = s.name;
+                        semesterSelect.appendChild(opt);
+                    });
+                }
 
-        function updateIdentityUI(name) {
-            savedIdentityText.innerHTML = `Seçili: <span class="text-blue-400 font-bold">${name}</span>`;
-            findMeBtn.classList.remove('hidden');
-        }
+                // Add "Legacy" option if exists
+                const optLegacy = document.createElement('option');
+                optLegacy.value = 'legacy_archive';
+                optLegacy.textContent = "Köhnə Arxiv (Qayıblar)";
+                semesterSelect.appendChild(optLegacy);
 
-        function scrollToStudent(name) {
-            const row = document.querySelector(`tr[data-student-row="${name}"]`);
-            const card = document.querySelector(`div[data-student-card="${name}"]`);
-            
-            let target = (window.getComputedStyle(mobileView).display !== 'none') ? card : row;
+                // If no active semester found, select legacy or first available
+                if (!active && semesterSelect.options.length > 0) {
+                    semesterSelect.selectedIndex = 0;
+                } else if (!active && semesterSelect.options.length === 0) {
+                    semesterSelect.innerHTML = '<option disabled>Semestr Tapılmadı</option>';
+                    loadingMessage.innerText = "Heç bir semestr tapılmadı.";
+                    return;
+                }
 
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                target.classList.add('highlight-target');
-                setTimeout(() => target.classList.remove('highlight-target'), 3000);
-            } else {
-                alert("Məlumat tapılmadı.");
+                // Listen for change
+                semesterSelect.addEventListener('change', () => loadData(semesterSelect.value));
+
+                // Load initial
+                loadData(semesterSelect.value);
+
+            } catch (e) {
+                console.error("Init Error:", e);
+                loadingMessage.innerText = "Xəta baş verdi: " + e.message;
             }
         }
 
-        initIdentityFeature();
+        async function loadData(semesterId) {
+            loadingMessage.style.display = 'flex';
+            contentArea.classList.add('hidden');
+            noDataMessage.classList.add('hidden');
 
-        const q = query(collection(db, "qayiblar"), orderBy("tarix", "desc"));
-        onSnapshot(q, (querySnapshot) => {
-            allAbsences = querySnapshot.docs.map(doc => doc.data());
-            processData();
-            updateUI();
-            updateRanking();
-            checkTodaysAbsences();
-            loadingMessage.style.display = 'none';
-        });
+            try {
+                // 1. Fetch Students
+                studentsList = await manager.getAllStudents(currentGroupId);
+                if (studentsList.length === 0) {
+                    // Fallback check if migration hasn't run but we want to view something?
+                    // Usually 0 is fine if page is empty
+                }
+                populateIdentitySelect();
+
+                // 2. Fetch Subjects
+                // Legacy check
+                if (semesterId === 'legacy_archive') {
+                    // For legacy, we might need to derive subjects from the absences themselves if not stored
+                    // Or we assume same subjects. Let's just create a Set from the data we pull.
+                    subjectsList = ["Ehtimal nəzəriyyəsi və statistika", "Sistem proqramlaşdırma", "XDIAK-3", "Verilənlər bazası sistemləri", "Kompüter arxitekturası-1", "Web sistemləri və texnologiyaları"];
+                } else {
+                    subjectsList = await manager.getGroupSubjects(semesterId, currentGroupId);
+                }
+
+                // 3. Fetch/Listen Absences
+                if (semesterId === 'legacy_archive') {
+                    // Fetch once (legacy data doesn't change much)
+                    const legacyData = await manager.getLegacyAbsences();
+                    allAbsences = legacyData;
+                    processData();
+                    updateUI();
+                    updateRanking();
+                    checkTodaysAbsences();
+                    loadingMessage.style.display = 'none';
+                    if (allAbsences.length === 0 && studentsList.length === 0) {
+                        noDataMessage.classList.remove('hidden');
+                    } else {
+                        contentArea.classList.remove('hidden');
+                    }
+                } else {
+                    const q = query(
+                        collection(db, "absences_log"),
+                        where("semesterId", "==", semesterId)
+                        // orderBy("timestamp", "desc") // REMOVED to avoid index requirement
+                    );
+
+                    onSnapshot(q, (snapshot) => {
+                        if (snapshot.empty) {
+                            allAbsences = [];
+                        } else {
+                            // Client-side sorting
+                            allAbsences = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                            allAbsences.sort((a, b) => {
+                                const ta = a.timestamp ? a.timestamp.toMillis() : 0;
+                                const tb = b.timestamp ? b.timestamp.toMillis() : 0;
+                                return tb - ta; // Descending
+                            });
+                        }
+                        processData();
+                        updateUI();
+                        updateRanking();
+                        checkTodaysAbsences();
+                        loadingMessage.style.display = 'none';
+                        if (allAbsences.length === 0) {
+                            noDataMessage.classList.remove('hidden');
+                            contentArea.classList.remove('hidden');
+                        } else {
+                            contentArea.classList.remove('hidden');
+                        }
+                    }, (error) => {
+                        console.error("Snapshot Error:", error);
+                        loadingMessage.innerText = "Xəta: " + error.message;
+                    });
+                }
+
+            } catch (e) {
+                console.error("Load Data Error:", e);
+                loadingMessage.innerText = "Yüklənmə xətası.";
+            }
+        }
+
+        function populateIdentitySelect() {
+            studentIdentitySelect.innerHTML = '<option value="">Tələbə seçin...</option>';
+            studentsList.sort().forEach(st => {
+                const opt = document.createElement('option');
+                opt.value = st;
+                opt.textContent = st;
+                studentIdentitySelect.appendChild(opt);
+            });
+
+            // Restore selection
+            const saved = localStorage.getItem('myAttendanceIdentity_ITS');
+            if (saved) {
+                updateIdentityUI(saved);
+                studentIdentitySelect.value = saved;
+            }
+        }
 
         function processData() {
             processedData = {};
-            students.forEach(student => {
-                processedData[student] = { total: 0, subjects: {} };
-                subjects.forEach(sub => processedData[student].subjects[sub] = 0);
+            studentsList.forEach(st => {
+                processedData[st] = { total: 0, subjects: {} };
+                subjectsList.forEach(sub => processedData[st].subjects[sub] = 0);
             });
 
+            // Also handle students potentially not in the current list (e.g. from archive)
             allAbsences.forEach(abs => {
-                if (processedData[abs.usaqAdi] && processedData[abs.usaqAdi].subjects[abs.fenn] !== undefined) {
-                    processedData[abs.usaqAdi].subjects[abs.fenn]++;
-                    processedData[abs.usaqAdi].total++;
+                const stName = abs.studentName;
+                if (!processedData[stName]) {
+                    processedData[stName] = { total: 0, subjects: {} };
+                    subjectsList.forEach(sub => processedData[stName].subjects[sub] = 0);
+                    // Only add if not exists
+                    if (!studentsList.includes(stName)) studentsList.push(stName);
+                }
+
+                if (processedData[stName].subjects[abs.subject] !== undefined) {
+                    processedData[stName].subjects[abs.subject]++;
+                    processedData[stName].total++;
+                } else {
+                    // Subject might not be in the list (legacy?), add it?
+                    processedData[stName].subjects[abs.subject] = 1;
+                    processedData[stName].total++;
+                    if (!subjectsList.includes(abs.subject)) subjectsList.push(abs.subject);
                 }
             });
         }
 
+        // --- UI Rendering (mostly reused from your snippet but dynamic) ---
         function updateUI() {
+            // Limits (Default 7 for now, can be sophisticated later)
+            const getLimit = (sub) => {
+                // Heuristics or fetched config
+                return 7;
+            };
+
+            // Desktop Head
             let theadHTML = `<tr><th class="sticky-col-header py-4 px-4 text-left whitespace-nowrap">Ad Soyad</th>`;
-            subjects.forEach(sub => {
-                theadHTML += `<th class="py-3 px-4 text-center font-semibold min-w-[220px] whitespace-nowrap">
+            subjectsList.forEach(sub => {
+                const limit = getLimit(sub);
+                theadHTML += `<th class="py-3 px-4 text-center font-semibold min-w-[200px]">
                     <div class="text-gray-200">${sub}</div>
-                    <div class="text-xs text-yellow-500 font-mono mt-1">Limit: ${subjectLimits[sub]}</div>
+                    <div class="text-xs text-yellow-500 font-mono mt-1">Limit: ${limit}</div>
                 </th>`;
             });
             theadHTML += `</tr>`;
             desktopViewHead.innerHTML = theadHTML;
 
+            // Desktop Body & Mobile
             let tbodyHTML = '';
             let mobileHTML = '';
 
-            students.forEach(student => {
+            // Sort students alphabetically
+            studentsList.sort();
+
+            studentsList.forEach(student => {
                 const data = processedData[student];
-                
+
+                // Desktop
                 tbodyHTML += `<tr data-student-row="${student}" class="border-b border-gray-700 hover:bg-gray-700/50 transition-colors">
                     <td class="sticky-col-cell py-4 px-4 font-medium text-gray-200 whitespace-nowrap cursor-pointer hover:text-blue-400" 
                         onclick="showAllDetails('${student}')">
                         ${student}
                     </td>`;
-                
-                subjects.forEach(sub => {
-                    const count = data.subjects[sub];
-                    const limit = subjectLimits[sub];
-                    let styleClass = "text-gray-500";
-                    let content = count > 0 ? count : "-";
-                    
-                    let cellClickAttr = "";
-                    let cellClasses = "py-3 px-2 text-center transition-colors"; 
+
+                subjectsList.forEach(sub => {
+                    const count = data.subjects[sub] || 0;
+                    const limit = getLimit(sub);
+                    let display = count > 0 ? count : "-";
+                    let classes = "py-3 px-2 text-center transition-colors text-gray-500";
+                    let click = "";
 
                     if (count > 0) {
-                        styleClass = "text-yellow-400 font-bold text-lg";
-                        
-                        if (count > limit) {
-                            styleClass = "text-red-500 font-extrabold animate-pulse";
-                            content += `<div class="text-[10px] text-red-500 font-bold mt-1">KƏSİLDİ</div>`;
-                        } else if (count == limit) {
-                             styleClass = "text-red-500 font-bold text-lg";
-                        } else if (count >= limit - 2) {
-                            styleClass = "text-orange-500 font-bold";
-                        }
-                        
-                        cellClickAttr = `onclick="showSubjectDetails('${student}', '${sub}')"`;
-                        cellClasses += ` cursor-pointer hover:bg-gray-700 ${styleClass}`;
-                    } else {
-                        cellClasses += ` ${styleClass}`;
-                    }
+                        classes = "py-3 px-2 text-center transition-colors cursor-pointer hover:bg-gray-700 font-bold text-lg ";
+                        click = `onclick="showSubjectDetails('${student}', '${sub}')"`;
 
-                    tbodyHTML += `<td ${cellClickAttr} class="${cellClasses}">${content}</td>`;
+                        if (count > limit) classes += "text-red-500 animate-pulse";
+                        else if (count === limit) classes += "text-red-400";
+                        else if (count >= limit - 2) classes += "text-orange-400";
+                        else classes += "text-yellow-400";
+
+                        if (count > limit) display += `<div class="text-[9px] text-red-500">KƏSİLDİ</div>`;
+                    }
+                    tbodyHTML += `<td ${click} class="${classes}">${display}</td>`;
                 });
                 tbodyHTML += `</tr>`;
 
-                let subjectsListHTML = '';
+                // Mobile
+                let subHTML = '';
                 let hasAbsence = false;
-
-                subjects.forEach(sub => {
-                    const count = data.subjects[sub];
-                    const limit = subjectLimits[sub];
+                subjectsList.forEach(sub => {
+                    const count = data.subjects[sub] || 0;
                     if (count > 0) {
                         hasAbsence = true;
+                        const limit = getLimit(sub);
                         let barColor = "bg-blue-600";
                         let textColor = "text-gray-300";
-                        let failedBadge = "";
-                        
-                        if (count > limit) { 
-                            barColor = "bg-red-600"; 
-                            textColor = "text-red-500 font-extrabold";
-                            failedBadge = `<span class="ml-2 text-[10px] bg-red-500/20 text-red-500 px-1.5 py-0.5 rounded border border-red-500/50 animate-pulse">KƏSİLDİ</span>`;
-                        } else if (count == limit) {
-                             barColor = "bg-red-600"; 
-                             textColor = "text-red-400 font-bold";
-                        } else if (count >= limit - 2) { 
-                            barColor = "bg-orange-500"; 
-                            textColor = "text-orange-400"; 
-                        }
+                        let badge = "";
 
-                        const percent = Math.min((count / limit) * 100, 100);
+                        if (count > limit) { barColor = "bg-red-600"; textColor = "text-red-500"; badge = "KƏSİLDİ"; }
+                        else if (count === limit) { barColor = "bg-red-500"; textColor = "text-red-400"; }
+                        else if (count >= limit - 2) { barColor = "bg-orange-500"; textColor = "text-orange-400"; }
 
-                        subjectsListHTML += `
-                            <div class="mb-3 cursor-pointer active:bg-gray-700 p-2 rounded border border-gray-700 hover:border-gray-600" onclick="showSubjectDetails('${student}', '${sub}')">
-                                <div class="flex flex-col gap-1 mb-2">
-                                    <div class="flex justify-between items-start">
-                                        <span class="text-gray-300 text-sm font-medium leading-tight flex-1 mr-2">${sub}</span>
-                                        ${failedBadge}
-                                    </div>
-                                    <span class="${textColor} text-sm">${count} <span class="text-gray-500 text-xs">/ ${limit}</span></span>
+                        const pct = Math.min((count / limit) * 100, 100);
+
+                        subHTML += `
+                            <div class="mb-3 cursor-pointer p-2 rounded border border-gray-700 hover:border-gray-600" onclick="showSubjectDetails('${student}', '${sub}')">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-300">${sub}</span>
+                                    <span class="text-xs font-bold text-red-500">${badge}</span>
                                 </div>
-                                <div class="w-full bg-gray-700 rounded-full h-1.5">
-                                    <div class="${barColor} h-1.5 rounded-full" style="width: ${percent}%"></div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="${textColor}">${count} / ${limit}</span>
                                 </div>
+                                <div class="h-1.5 bg-gray-700 rounded-full"><div class="${barColor} h-1.5 rounded-full" style="width:${pct}%"></div></div>
                             </div>
                         `;
                     }
                 });
 
-                if (!hasAbsence) {
-                    subjectsListHTML = `<div class="text-center py-2 text-green-500 text-sm font-medium bg-green-500/10 rounded-lg">
-                        <i class="ph ph-check-circle mr-1"></i> Qayıb yoxdur
-                    </div>`;
-                }
+                if (!hasAbsence) subHTML = `<div class="text-center py-2 text-green-500 text-sm bg-green-500/10 rounded">Qayıb yoxdur ✅</div>`;
 
                 mobileHTML += `
-                    <div data-student-card="${student}" class="bg-gray-800 rounded-xl p-5 border border-gray-700 shadow-md student-card">
-                        <div class="flex justify-between items-start mb-4 border-b border-gray-700 pb-3" onclick="showAllDetails('${student}')">
-                            <div>
-                                <h3 class="font-bold text-lg text-white leading-tight">${student}</h3>
-                                <p class="text-xs text-gray-500 mt-1">Tələbə</p>
-                            </div>
-                            <div class="bg-gray-700 px-3 py-1 rounded-full text-center min-w-[3rem]">
-                                <span class="block text-xs text-gray-400">Cəmi</span>
-                                <span class="font-bold ${data.total > 0 ? 'text-white' : 'text-gray-500'}">${data.total}</span>
-                            </div>
-                        </div>
-                        <div>${subjectsListHTML}</div>
+                    <div data-student-card="${student}" class="bg-gray-800 rounded-xl p-4 border border-gray-700 shadow-md">
+                         <div class="flex justify-between items-center mb-3 border-b border-gray-700 pb-2" onclick="showAllDetails('${student}')">
+                            <h3 class="font-bold text-white">${student}</h3>
+                            <span class="bg-gray-700 px-2 py-1 rounded text-xs text-white font-bold">${data.total}</span>
+                         </div>
+                         <div>${subHTML}</div>
                     </div>
                 `;
             });
@@ -456,70 +606,59 @@
         }
 
         function updateRanking() {
-            const sortedStudents = [...students].sort((a, b) => processedData[b].total - processedData[a].total);
-            let rankingHTML = '';
-            
-            sortedStudents.forEach((student, index) => {
-                const total = processedData[student].total;
+            const sorted = [...studentsList].sort((a, b) => (processedData[b]?.total || 0) - (processedData[a]?.total || 0));
+            let html = '';
+            sorted.forEach((st, idx) => {
+                const total = processedData[st]?.total || 0;
                 if (total === 0) return;
 
-                let rankStyle = "bg-gray-700 text-gray-400";
-                let rowStyle = "hover:bg-gray-700/50";
-                let icon = `<span class="font-bold">${index + 1}</span>`;
+                let rankClass = "bg-gray-700 text-gray-400";
+                let icon = idx + 1;
 
-                if (index === 0) {
-                    rankStyle = "bg-yellow-500 text-black shadow-lg shadow-yellow-500/50";
-                    rowStyle = "bg-yellow-500/10 border-l-2 border-yellow-500";
-                    icon = `<i class="ph ph-crown-simple text-lg font-bold"></i>`;
-                } else if (index === 1) {
-                    rankStyle = "bg-gray-300 text-black";
-                    icon = `<span class="font-bold">2</span>`;
-                } else if (index === 2) {
-                    rankStyle = "bg-orange-700 text-white";
-                    icon = `<span class="font-bold">3</span>`;
-                }
+                if (idx === 0) { rankClass = "bg-yellow-500 text-black"; icon = "👑"; }
 
-                rankingHTML += `
-                    <div class="flex items-center justify-between p-4 ${rowStyle} transition-colors">
+                html += `
+                    <div class="flex justify-between p-3 border-b border-gray-700 last:border-0 hover:bg-gray-700/30">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center ${rankStyle}">${icon}</div>
-                            <div class="font-medium text-gray-200">${student}</div>
+                            <div class="w-8 h-8 flex items-center justify-center rounded-full font-bold ${rankClass}">${icon}</div>
+                            <span class="text-gray-200 font-medium">${st}</span>
                         </div>
-                        <div class="font-mono font-bold text-lg text-white">${total}</div>
+                        <span class="font-bold text-white text-lg">${total}</span>
                     </div>
                 `;
             });
-
-            if (rankingHTML === '') rankingHTML = '<div class="p-8 text-center text-gray-500">Qayıb yoxdur.</div>';
-            rankingBody.innerHTML = rankingHTML;
+            if (!html) html = '<div class="p-4 text-center text-gray-500">Qayıb yoxdur.</div>';
+            rankingBody.innerHTML = html;
         }
 
         function checkTodaysAbsences() {
-            const bakuDate = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Baku" }));
-            const year = bakuDate.getFullYear();
-            const month = String(bakuDate.getMonth() + 1).padStart(2, '0');
-            const day = String(bakuDate.getDate()).padStart(2, '0');
-            const today = `${year}-${month}-${day}`;
-            
-            const todaysAbsences = allAbsences.filter(a => a.tarix === today);
+            const todayStr = new Date().toLocaleDateString('az-AZ'); // Or 'en-CA' for YYYY-MM-DD match if that's what we store
+            // Stored format is typically YYYY-MM-DD from input[type=date]
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = String(now.getMonth() + 1).padStart(2, '0');
+            const d = String(now.getDate()).padStart(2, '0');
+            const matchDate = `${y}-${m}-${d}`;
 
-            if (todaysAbsences.length > 0) {
+            const todayList = allAbsences.filter(a => a.date === matchDate); // user inputs YYYY-MM-DD
+
+            if (todayList.length > 0) {
                 const grouped = {};
-                todaysAbsences.forEach(x => {
-                    if(!grouped[x.usaqAdi]) grouped[x.usaqAdi] = [];
-                    grouped[x.usaqAdi].push(x.fenn);
+                todayList.forEach(x => {
+                    if (!grouped[x.studentName]) grouped[x.studentName] = [];
+                    grouped[x.studentName].push(x.subject);
                 });
 
                 let html = '';
-                for(let st in grouped) {
+                for (let st in grouped) {
                     html += `
-                        <div class="bg-red-500/10 border border-red-500/20 px-4 py-3 rounded-lg">
-                            <span class="font-bold text-lg text-white block mb-2">${st}</span>
+                        <div class="bg-red-500/10 border border-red-500/30 p-3 rounded">
+                            <div class="font-bold text-red-200 mb-1">${st}</div>
                             <div class="flex flex-wrap gap-1">
-                                ${grouped[st].map(fenn => `<span class="text-red-300 text-xs bg-red-900/40 px-2 py-1 rounded">${fenn}</span>`).join('')}
+                                ${grouped[st].map(s => `<span class="text-[10px] bg-red-500/20 text-red-300 px-1 rounded">${s}</span>`).join('')}
                             </div>
                         </div>
-                    `;
+                     `;
                 }
                 todaysList.innerHTML = html;
                 todaysContainer.classList.remove('hidden');
@@ -528,50 +667,87 @@
             }
         }
 
+        // --- Identity & Interaction ---
+
+        saveIdentityBtn.addEventListener('click', () => {
+            const val = studentIdentitySelect.value;
+            if (val) {
+                localStorage.setItem('myAttendanceIdentity_ITS', val);
+                updateIdentityUI(val);
+                saveIdentityBtn.textContent = 'Saxlandı!';
+                setTimeout(() => saveIdentityBtn.textContent = 'Yadda saxla', 2000);
+            }
+        });
+
+        findMeBtn.addEventListener('click', () => {
+            const saved = localStorage.getItem('myAttendanceIdentity_ITS');
+            if (saved) {
+                // Scroll to
+                const el = document.querySelector(`[data-student-row="${saved}"]`) || document.querySelector(`[data-student-card="${saved}"]`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('ring-2', 'ring-blue-500');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-blue-500'), 3000);
+                } else {
+                    alert("Siz bu siyahıda yoxsunuz.");
+                }
+            }
+        });
+
+        function updateIdentityUI(name) {
+            savedIdentityText.innerHTML = `Seçili: <span class="text-blue-400 font-bold">${name}</span>`;
+            findMeBtn.classList.remove('hidden');
+        }
+
         window.showSubjectDetails = (student, subject) => {
-            modalTitle.textContent = student;
-            modalBody.innerHTML = `<div class="mb-4 text-blue-400 font-semibold border-b border-gray-700 pb-2">${subject}</div>`;
-            const filtered = allAbsences.filter(a => a.usaqAdi === student && a.fenn === subject).sort((a, b) => new Date(a.tarix) - new Date(b.tarix));
-            let html = '<div class="grid grid-cols-2 gap-2">';
-            filtered.forEach(item => html += `<div class="bg-gray-700 p-2 rounded text-center text-sm font-mono text-white">${item.tarix}</div>`);
-            html += '</div>';
-            modalBody.innerHTML += html;
+            modalTitle.textContent = `${student} - ${subject}`;
+            const dates = allAbsences
+                .filter(a => a.studentName === student && a.subject === subject)
+                .map(a => a.date)
+                .sort();
+
+            modalBody.innerHTML = `
+                <div class="grid grid-cols-2 gap-2">
+                    ${dates.map(d => `<div class="bg-gray-700 p-2 rounded text-center text-sm">${d}</div>`).join('')}
+                </div>
+             `;
             detailsModal.classList.remove('hidden');
         };
 
         window.showAllDetails = (student) => {
             modalTitle.textContent = student;
-            modalBody.innerHTML = '';
-            const studentAbsences = allAbsences.filter(a => a.usaqAdi === student);
-            if (studentAbsences.length === 0) {
-                modalBody.innerHTML = '<div class="text-center text-gray-500 py-4">Qayıb tapılmadı.</div>';
-            } else {
-                const grouped = {};
-                studentAbsences.forEach(x => { if(!grouped[x.fenn]) grouped[x.fenn] = []; grouped[x.fenn].push(x.tarix); });
-                for (let sub in grouped) {
-                    grouped[sub].sort();
-                    const div = document.createElement('div');
-                    div.className = "mb-6 last:mb-0";
-                    div.innerHTML = `
-                        <h4 class="text-blue-400 font-medium mb-2 flex justify-between items-center">
-                            ${sub} <span class="bg-blue-900 text-blue-200 px-2 py-0.5 rounded text-xs">${grouped[sub].length}</span>
-                        </h4>
-                        <div class="grid grid-cols-3 gap-2">
-                            ${grouped[sub].map(date => `<div class="bg-gray-700/50 p-1.5 rounded text-center text-xs text-gray-300 font-mono">${date}</div>`).join('')}
+            const myAbs = allAbsences.filter(a => a.studentName === student);
+            const grouped = {};
+            myAbs.forEach(a => {
+                if (!grouped[a.subject]) grouped[a.subject] = [];
+                grouped[a.subject].push(a.date);
+            });
+
+            let html = '';
+            for (let sub in grouped) {
+                html += `
+                    <div class="mb-4">
+                        <div class="font-bold text-blue-400 mb-1">${sub} <span class="text-xs text-gray-500">(${grouped[sub].length})</span></div>
+                        <div class="flex flex-wrap gap-2">
+                            ${grouped[sub].sort().map(d => `<span class="bg-gray-700 px-2 py-1 rounded text-xs">${d}</span>`).join('')}
                         </div>
-                    `;
-                    modalBody.appendChild(div);
-                }
+                    </div>
+                `;
             }
+            if (!html) html = "<p class='text-gray-500 text-center'>Qayıb yoxdur.</p>";
+            modalBody.innerHTML = html;
             detailsModal.classList.remove('hidden');
         };
 
-        closeModalBtn.addEventListener('click', () => detailsModal.classList.add('hidden'));
-        detailsModal.addEventListener('click', (e) => { if(e.target === detailsModal) detailsModal.classList.add('hidden'); });
+        // Modal closers
+        closeModalBtn.onclick = () => detailsModal.classList.add('hidden');
+        openRankingBtn.onclick = () => rankingModal.classList.remove('hidden');
+        closeRankingBtn.onclick = () => rankingModal.classList.add('hidden');
 
-        openRankingBtn.addEventListener('click', () => rankingModal.classList.remove('hidden'));
-        closeRankingBtn.addEventListener('click', () => rankingModal.classList.add('hidden'));
-        rankingModal.addEventListener('click', (e) => { if(e.target === rankingModal) rankingModal.classList.add('hidden'); });
+        // Start
+        document.addEventListener('DOMContentLoaded', init);
+
     </script>
 </body>
+
 </html>
