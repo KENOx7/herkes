@@ -234,6 +234,32 @@ export class SystemManager {
         });
     }
 
+    async updateLessonInSchedule(semesterId, groupId, weekType, dayIndex, oldLessonString, newLessonString) {
+        const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
+
+        await runTransaction(this.db, async (transaction) => {
+            const groupDoc = await transaction.get(groupRef);
+            if (!groupDoc.exists()) throw "Group not found!";
+
+            const data = groupDoc.data();
+            const schedule = data.schedule || { alt: {}, ust: {} };
+
+            if (schedule[weekType] && schedule[weekType][dayIndex]) {
+                const arr = schedule[weekType][dayIndex];
+                const index = arr.indexOf(oldLessonString);
+                if (index > -1) {
+                    // Replace
+                    arr[index] = newLessonString;
+                    transaction.update(groupRef, { schedule: schedule });
+                } else {
+                    throw "Lesson not found to update";
+                }
+            } else {
+                throw "Lesson path not found";
+            }
+        });
+    }
+
     async getGroupSchedule(semesterId, groupId) {
         const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
         const snap = await getDoc(groupRef);
