@@ -94,27 +94,103 @@ export class SystemManager {
         });
     }
 
-    async addSubjectToGroup(semesterId, groupId, subjectName) {
+    async addSubjectToGroup(semesterId, groupId, subjectName, limit = 7) {
         const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
-        const snap = await getDoc(groupRef);
 
-        if (snap.exists()) {
-            const currentSubjects = snap.data().subjects || [];
-            if (!currentSubjects.includes(subjectName)) {
-                await updateDoc(groupRef, {
-                    subjects: [...currentSubjects, subjectName]
+        await runTransaction(this.db, async (transaction) => {
+            const groupDoc = await transaction.get(groupRef);
+            if (groupDoc.exists()) {
+                const data = groupDoc.data();
+                const currentSubjects = data.subjects || [];
+                const limits = data.subjectLimits || {};
+
+                if (!currentSubjects.includes(subjectName)) {
+                    currentSubjects.push(subjectName);
+                }
+
+                // Update or set limit
+                limits[subjectName] = parseInt(limit);
+
+                transaction.update(groupRef, {
+                    subjects: currentSubjects,
+                    subjectLimits: limits
                 });
             }
-        }
+        });
     }
 
     async getGroupSubjects(semesterId, groupId) {
         const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
         const snap = await getDoc(groupRef);
         if (snap.exists()) {
-            return snap.data().subjects || [];
+            const data = snap.data();
+            return {
+                subjects: data.subjects || [],
+                limits: data.subjectLimits || {}
+            };
         }
-        return [];
+        return { subjects: [], limits: {} };
+    }
+
+    async updateSubject(semesterId, groupId, oldName, newName, limit) {
+        const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
+
+        await runTransaction(this.db, async (transaction) => {
+            const groupDoc = await transaction.get(groupRef);
+            if (!groupDoc.exists()) throw "Group not found!";
+
+            const data = groupDoc.data();
+            let subjects = data.subjects || [];
+            let limits = data.subjectLimits || {};
+
+            // 1. Rename if needed
+            if (oldName !== newName) {
+                const idx = subjects.indexOf(oldName);
+                if (idx !== -1) {
+                    subjects[idx] = newName;
+                    // Move limit
+                    if (limits[oldName]) {
+                        limits[newName] = limits[oldName];
+                        delete limits[oldName];
+                    }
+                }
+            }
+
+            // 2. Update limit
+            limits[newName] = parseInt(limit);
+
+            transaction.update(groupRef, {
+                subjects: subjects,
+                subjectLimits: limits
+            });
+        });
+    }
+
+    async deleteSubject(semesterId, groupId, subjectName) {
+        const groupRef = doc(this.db, "semesters", semesterId, "groups", groupId);
+
+        await runTransaction(this.db, async (transaction) => {
+            const groupDoc = await transaction.get(groupRef);
+            if (!groupDoc.exists()) throw "Group not found!";
+
+            const data = groupDoc.data();
+            let subjects = data.subjects || [];
+            let limits = data.subjectLimits || {};
+
+            const idx = subjects.indexOf(subjectName);
+            if (idx !== -1) {
+                subjects.splice(idx, 1);
+            }
+
+            if (limits[subjectName]) {
+                delete limits[subjectName];
+            }
+
+            transaction.update(groupRef, {
+                subjects: subjects,
+                subjectLimits: limits
+            });
+        });
     }
 
     // --- Schedule Management ---
