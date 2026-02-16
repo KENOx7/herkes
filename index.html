@@ -220,7 +220,7 @@
 
     <div class="fixed bottom-6 right-6 z-50">
         <a href="https://kenox7.github.io/Cedvel/"
-           class="bg-gray-700 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-2xl border border-gray-500 flex items-center justify-center transition-transform hover:-translate-y-1">
+            class="bg-gray-700 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-2xl border border-gray-500 flex items-center justify-center transition-transform hover:-translate-y-1">
             <i class="ph ph-arrow-u-up-left text-2xl"></i>
         </a>
     </div>
@@ -421,7 +421,10 @@
                             allAbsences = [];
                         } else {
                             // Client-side sorting
-                            allAbsences = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                            allAbsences = snapshot.docs
+                                .map(d => ({ id: d.id, ...d.data() }))
+                                .filter(d => d.groupId !== "758_KM"); // Filter out 758_KM
+
                             allAbsences.sort((a, b) => {
                                 const ta = a.timestamp ? a.timestamp.toMillis() : 0;
                                 const tb = b.timestamp ? b.timestamp.toMillis() : 0;
