@@ -685,12 +685,21 @@
         findMeBtn.addEventListener('click', () => {
             const saved = localStorage.getItem('myAttendanceIdentity_ITS');
             if (saved) {
-                // Scroll to
-                const el = document.querySelector(`[data-student-row="${saved}"]`) || document.querySelector(`[data-student-card="${saved}"]`);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    el.classList.add('ring-2', 'ring-blue-500');
-                    setTimeout(() => el.classList.remove('ring-2', 'ring-blue-500'), 3000);
+                // Həm masaüstü həm də mobil elementləri tapırıq
+                const els = document.querySelectorAll(`[data-student-row="${saved}"], [data-student-card="${saved}"]`);
+                let targetEl = null;
+                // Hansı hazırda ekranda görünürsə (offsetParent !== null) onu seçirik
+                for (let el of els) {
+                    if (el.offsetParent !== null) {
+                        targetEl = el;
+                        break;
+                    }
+                }
+
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetEl.classList.add('ring-2', 'ring-blue-500');
+                    setTimeout(() => targetEl.classList.remove('ring-2', 'ring-blue-500'), 3000);
                 } else {
                     alert("Siz bu siyahıda yoxsunuz.");
                 }
